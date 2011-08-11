@@ -6,11 +6,14 @@ from gevent import local, monkey
 from district_scraper import districtExtract
 from taluka_scraper import talukaExtract
 from panchayat_scraper import panchayatExtract
+import time
 
 monkey.patch_all()
 
 import urllib
 from urlparse import urlparse
+
+start = time.time()
 
 
 def _cleanUrl(url):
@@ -60,6 +63,8 @@ jobs = [gevent.spawn(fetch_taluka,
                      key)
         for key, value in data.iteritems()]
 gevent.joinall(jobs)
+
 f = open('database/data.json', 'w')
 output = json.dumps(global_data)
+print time.time() - start
 f.write(output)

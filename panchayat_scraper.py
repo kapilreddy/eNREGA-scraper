@@ -1,4 +1,4 @@
-from BeautifulSoup import BeautifulSoup
+import BeautifulSoup
 import urllib2
 from urlparse import urlparse
 
@@ -7,10 +7,13 @@ def panchayatExtract(url):
     data = {}
     urlparts = urlparse(url)
     host = urlparts.hostname
-    page = urllib2.urlopen(url)
-    dir(BeautifulSoup)
-    soup = BeautifulSoup.BeautifulSoup(page)
-    table_block = soup('table', id = "Table2")[0]
+    try:
+        page = urllib2.urlopen(url)
+        dir(BeautifulSoup)
+        soup = BeautifulSoup.BeautifulSoup(page)
+        table_block = soup('table', id="Table2")[0]
+    except:
+        return None
 
     # there are five unwanted rows
     unwanted_row = table_block.next.nextSibling
